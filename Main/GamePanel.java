@@ -1,6 +1,6 @@
 package Main;
-import javax.swing.JPanel;
 
+import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -20,6 +20,9 @@ public class GamePanel extends JPanel implements Runnable{
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setBackground(Color.black);
         this.setLayout(null);
+        //KeyListener
+        this.addKeyListener(new KeyHandler());
+        this.setFocusable(true);
 
         pm = new PlayManager();
     }
@@ -49,15 +52,16 @@ public class GamePanel extends JPanel implements Runnable{
                 delta--;
             }
         }
-        private void update() {
+    }
 
-            pm.update();
-        }
-        private void paintComponent (Graphics g) {
-            super.paintComponent(g);
+    private void update() {
+        pm.update();
+    }
 
-            Graphics g2 = (Graphics2D) g;
-            pm.draw(g2);
-        }
+    private void paintComponent (Graphics g) {
+        super.paintComponent(g);
+
+        Graphics g2 = (Graphics2D) g;
+        pm.draw(g2);
     }
 }
