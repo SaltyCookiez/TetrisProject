@@ -3,6 +3,7 @@ package Main;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
@@ -49,7 +50,7 @@ public class PlayManager {
         currentMino.update();
     }
 
-    public void draw(Graphics2D g2) {
+    public void draw(Graphics g2) {
         
         //Draw Area Frame
         g2.setColor(Color.white);
