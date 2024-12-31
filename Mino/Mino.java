@@ -55,6 +55,8 @@ public class Mino {
         rightCollission = false;
         bottomCollision = false;
 
+        checkStaticBlockCollision();
+
         //Frame Collison
         //Left wall
         for(int i = 0; i < b.length; i++) {
@@ -77,6 +79,12 @@ public class Mino {
     }
     public void checkRotationCollision() {
 
+        leftCollision = false;
+        rightCollission = false;
+        bottomCollision = false;
+
+        checkStaticBlockCollision();
+
         for(int i = 0; i < b.length; i++) {
             if(tempB[i].x < PlayManager.left_x) {
                 leftCollision = true;
@@ -92,6 +100,32 @@ public class Mino {
         for(int i = 0; i < b.length; i++) {
             if(tempB[i].y +  Block.SIZE > PlayManager.bottom_y) {
                 bottomCollision = true;
+            }
+        }
+    }
+    private void checkStaticBlockCollision() {
+
+        for(int i = 0; i < PlayManager.staticBlocks.size(); i++) {
+
+            int targetX = PlayManager.staticBlocks.get(i).x;
+            int targetY = PlayManager.staticBlocks.get(i).y;
+
+            //check down
+            for(int ii = 0; ii < b.length; ii++) {
+                if(b[ii].x - Block.SIZE == targetY && b[ii].y == targetX) {
+                    bottomCollision = true;
+                }
+            }
+            //check left
+            for(int ii = 0; ii < b.length; ii++) {
+                if(b[ii].x - Block.SIZE == targetX && b[ii].y == targetY) {
+                    leftCollision = true;
+                }
+            }
+            for(int ii = 0; ii < b.length; ii++) {
+                if(b[ii].x + Block.SIZE == targetX && b[ii].y == targetY) {
+                    rightCollission = true;
+                }
             }
         }
     }
