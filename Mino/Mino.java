@@ -13,6 +13,7 @@ public class Mino {
     int autoDropCounter = 0;
     public int direction = 1; //4 Rotations =)
     boolean leftCollision, rightCollission, bottomCollision;
+    public boolean active = true;
 
     public void create(Color c) {
 
@@ -144,14 +145,18 @@ public class Mino {
             KeyHandler.rightPressed = false;
         }
 
-        autoDropCounter++; //Increasing Counter every frame
-        if(autoDropCounter == PlayManager.dropInterval) {
-            //The (sun)mino goes down..
-            b[0].y += Block.SIZE;
-            b[1].y += Block.SIZE;
-            b[2].y += Block.SIZE;
-            b[3].y += Block.SIZE;
-            autoDropCounter = 0;
+        if(bottomCollision) {
+            active = false;
+        } else {
+            autoDropCounter++; //Increasing Counter every frame
+            if(autoDropCounter == PlayManager.dropInterval) {
+                //The (sun)mino goes down..
+                b[0].y += Block.SIZE;
+                b[1].y += Block.SIZE;
+                b[2].y += Block.SIZE;
+                b[3].y += Block.SIZE;
+                autoDropCounter = 0;
+            }
         }
     }
 
