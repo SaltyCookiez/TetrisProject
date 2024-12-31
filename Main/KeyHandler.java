@@ -27,7 +27,7 @@ public class KeyHandler implements KeyListener{
             downPressed = true;
         }
         if (code == KeyEvent.VK_D) {
-            downPressed = true;
+            rightPressed = true;
         }
     }
 

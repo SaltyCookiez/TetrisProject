@@ -32,12 +32,12 @@ public class Mino_Z1 extends Mino{
 
         tempB[0].x = b[0].x;
         tempB[0].y = b[0].y;
-        tempB[1].x = b[1].x;
-        tempB[1].y = b[1].y - Block.SIZE;
-        tempB[2].x = b[2].x - Block.SIZE;
-        tempB[2].y = b[2].y;
-        tempB[3].x = b[3].x - Block.SIZE;
-        tempB[3].y = b[3].y + Block.SIZE;
+        tempB[1].x = b[0].x;
+        tempB[1].y = b[0].y - Block.SIZE;
+        tempB[2].x = b[0].x - Block.SIZE;
+        tempB[2].y = b[0].y;
+        tempB[3].x = b[0].x - Block.SIZE;
+        tempB[3].y = b[0].y + Block.SIZE;
 
         updateXY(1);
     }
@@ -50,12 +50,12 @@ public class Mino_Z1 extends Mino{
 
         tempB[0].x = b[0].x;
         tempB[0].y = b[0].y;
-        tempB[1].x = b[1].x + Block.SIZE;
-        tempB[1].y = b[1].y;
-        tempB[2].x = b[2].x;
-        tempB[2].y = b[2].y - Block.SIZE;
-        tempB[3].x = b[3].x - Block.SIZE;
-        tempB[3].y = b[3].y - Block.SIZE;
+        tempB[1].x = b[0].x + Block.SIZE;
+        tempB[1].y = b[0].y;
+        tempB[2].x = b[0].x;
+        tempB[2].y = b[0].y - Block.SIZE;
+        tempB[3].x = b[0].x - Block.SIZE;
+        tempB[3].y = b[0].y - Block.SIZE;
 
         updateXY(2);
     }

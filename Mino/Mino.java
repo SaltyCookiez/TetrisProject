@@ -29,18 +29,15 @@ public class Mino {
     public void setXY(int x, int y) {}
     public void updateXY(int direction) {
 
-        // ○
-        // ○
-        // ○ ○
         this.direction = direction;
-        tempB[0].x = b[0].x;
-        tempB[0].y = b[0].y;
-        tempB[1].x = b[1].x;
-        tempB[1].y = b[1].y;
-        tempB[2].x = b[2].x;
-        tempB[2].y = b[2].y;
-        tempB[3].x = b[3].x;
-        tempB[3].y = b[3].y;
+        b[0].x = tempB[0].x;
+        b[0].y = tempB[0].y;
+        b[1].x = tempB[1].x;
+        b[1].y = tempB[1].y;
+        b[2].x = tempB[2].x;
+        b[2].y = tempB[2].y;
+        b[3].x = tempB[3].x;
+        b[3].y = tempB[3].y;
     }
     public void getDirection1() {}
     public void getDirection2() {}
