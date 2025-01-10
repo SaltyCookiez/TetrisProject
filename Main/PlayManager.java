@@ -118,6 +118,7 @@ public class PlayManager {
         int x = left_x;
         int y = top_y;
         int blockCount = 0;
+        int lineCount = 0;
 
         while (x < right_x && y < bottom_y) {
 
@@ -142,6 +143,19 @@ public class PlayManager {
                         }
                     }
 
+                    lineCount++;
+                    lines++;
+                    if (lines % 10 == 0 && dropInterval > 1) {
+
+                        level++;
+                        if (dropInterval > 10) {
+                            dropInterval -= 10;
+                        }
+                        else {
+                            dropInterval -= 1;
+                        }
+                    }
+
                     for (int i = 0; i < staticBlocks.size(); i++) {
                         if (staticBlocks.get(i).y < y) {
                             staticBlocks.get(i).y += Block.SIZE;
@@ -153,6 +167,12 @@ public class PlayManager {
                 x = left_x;
                 y += Block.SIZE;
             }
+        }
+
+        //Add Score
+        if (lineCount > 0) {
+            int singleLineScore = 10 * level;
+            score += singleLineScore * lineCount;
         }
     }
     public void draw(Graphics2D g2) {
@@ -169,6 +189,14 @@ public class PlayManager {
         g2.setFont(new Font("Arial", Font.PLAIN, 30));
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.drawString("NEXT", x+60, y+60);
+
+        //Draw Score
+        g2.drawRect(x, top_y, 250, 300);
+        x += 40;
+        y = top_y + 90;
+        g2.drawString("LEVEL: " + level, x, y); y += 70;
+        g2.drawString("LINES: " + lines, x, y); y += 70;
+        g2.drawString("SCORE: " + score, x, y);
 
         //Draw the CurrentMino
         if(currentMino != null) {
