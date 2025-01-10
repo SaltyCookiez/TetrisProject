@@ -17,6 +17,16 @@ public class Mino {
     public boolean deactivating;
     int deactivateCounter = 0;
 
+    // New movement cooldown variables
+    private int horizontalMoveCooldown = 0;
+    private final int HORIZONTAL_MOVE_DELAY = 5; // Adjust this value to control movement speed
+    private int verticalMoveCooldown = 0;
+    private final int VERTICAL_MOVE_DELAY = 3; // Adjust this value to control downward movement speed
+
+    // New rotation cooldown variables
+    private int rotationCooldown = 0;
+    private final int ROTATION_DELAY = 10; // Adjust this value to control rotation speed
+
     public void create(Color c) {
 
         b[0] = new Block(c);
@@ -138,53 +148,59 @@ public class Mino {
         if(deactivating) {
             deactivating();
         }
-        //Move the mino
-        if(KeyHandler.upPressed) {
+
+        // Rotation logic with single press
+        if(KeyHandler.rotateJustPressed && rotationCooldown == 0) {
             switch(direction) {
                 case 1: getDirection2();break;
                 case 2: getDirection3();break;
                 case 3: getDirection4();break;
                 case 4: getDirection1();break;
             }
-            KeyHandler.upPressed = false;
+            // Set rotation cooldown after rotation
+            rotationCooldown = ROTATION_DELAY;
+            // Reset the just pressed flag to prevent multiple rotations
+            KeyHandler.rotateJustPressed = false;
         }
 
         checkMovementCollision();
 
-        if(KeyHandler.downPressed) {
-            //If bottom not hitting, it can go down
-            if(bottomCollision == false) {
-                b[0].y += Block.SIZE;
-                b[1].y += Block.SIZE;
-                b[2].y += Block.SIZE;
-                b[3].y += Block.SIZE;
-    
-                //When moved down, reset the autoDropCounter
-                autoDropCounter = 0;
-            }
-
-            KeyHandler.downPressed = false;
-        }
-        if(KeyHandler.leftPressed) {
+        // Horizontal movement with cooldown
+        if(KeyHandler.leftPressed && horizontalMoveCooldown == 0) {
             if(leftCollision == false) {
                 b[0].x -= Block.SIZE;
                 b[1].x -= Block.SIZE;
                 b[2].x -= Block.SIZE;
                 b[3].x -= Block.SIZE;
+                horizontalMoveCooldown = HORIZONTAL_MOVE_DELAY;
             }
-
-            KeyHandler.leftPressed = false;
         }
-        if(KeyHandler.rightPressed) {
+        if(KeyHandler.rightPressed && horizontalMoveCooldown == 0) {
             if(rightCollision == false) {
                 b[0].x += Block.SIZE;
                 b[1].x += Block.SIZE;
                 b[2].x += Block.SIZE;
                 b[3].x += Block.SIZE;
+                horizontalMoveCooldown = HORIZONTAL_MOVE_DELAY;
             }
-
-            KeyHandler.rightPressed = false;
         }
+
+        // Vertical movement with cooldown
+        if(KeyHandler.downPressed && verticalMoveCooldown == 0) {
+            if(bottomCollision == false) {
+                b[0].y += Block.SIZE;
+                b[1].y += Block.SIZE;
+                b[2].y += Block.SIZE;
+                b[3].y += Block.SIZE;
+                autoDropCounter = 0;
+                verticalMoveCooldown = VERTICAL_MOVE_DELAY;
+            }
+        }
+
+        // Decrement cooldown counters
+        if(horizontalMoveCooldown > 0) horizontalMoveCooldown--;
+        if(verticalMoveCooldown > 0) verticalMoveCooldown--;
+        if(rotationCooldown > 0) rotationCooldown--;
 
         if(bottomCollision) {
             deactivating = true;

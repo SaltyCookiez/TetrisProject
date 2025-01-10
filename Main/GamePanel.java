@@ -34,22 +34,36 @@ public class GamePanel extends JPanel implements Runnable{
 
     @Override
     public void run() {
-        // Game loop
-        double drawInterval = 1000000000/FPS;
-        double delta = 0;
-        long lastTime = System.nanoTime();
+        // Improved game loop with more precise timing
+        final double NANO_PER_SECOND = 1_000_000_000.0;
+        final double TARGET_FPS = 60.0;
+        final double TIME_BETWEEN_UPDATES = NANO_PER_SECOND / TARGET_FPS;
+        
+        long lastUpdateTime = System.nanoTime();
         long currentTime;
-
+        long lastRenderTime = System.nanoTime();
+        
         while(gameThread != null) {
             currentTime = System.nanoTime();
-
-            delta += (currentTime - lastTime) / drawInterval;
-            lastTime = currentTime;
-
-            if(delta >= 1) {
+            
+            // Update game state periodically
+            if (currentTime - lastUpdateTime >= TIME_BETWEEN_UPDATES) {
                 update();
+                lastUpdateTime = currentTime;
+            }
+            
+            // Render at target frame rate
+            if (currentTime - lastRenderTime >= TIME_BETWEEN_UPDATES) {
                 repaint();
-                delta--;
+                lastRenderTime = currentTime;
+            }
+            
+            // Prevent busy-waiting
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                System.err.println("Game loop interrupted: " + e.getMessage());
+                Thread.currentThread().interrupt();
             }
         }
     }
